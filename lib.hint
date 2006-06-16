@@ -1,0 +1,6 @@
+category: X11
+requires: cygwin fox12 fox14
+external-source: fxscintilla
+sdesc: "Scintilla component for FOX Toolkit (runtime)"
+ldesc: "FXScintilla is an implementation of the Scintilla source code 
+editing component for the FOX GUI Library"
