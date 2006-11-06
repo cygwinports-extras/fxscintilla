@@ -4,22 +4,24 @@ FXScintilla is an implementation of the Scintilla source code editing
 component for the FOX GUI Library.
 
 Runtime requirements:
-  cygwin-1.5.19-2
-  fox12-1.2.16-2
-  fox14-1.4.29-1
+  cygwin-1.5.21-2
+  fox12-1.2.16-3
+  fox14-1.4.33-1
+  fox16-1.6.16-1
 
 Build requirements:
 (besides corresponding -devel packages)
-  cygwin-1.5.19-2
-  autoconf2.5-2.59-3
+  cygwin-1.5.21-2
+  autoconf2.5-2.60-1
   automake1.9-1.9.6-1
-  binutils-20050610-1
+  binutils-20060817-1
+  cygport-0.2.6-1
   gawk-3.1.5-2
   gcc-core-3.4.4-1
   gcc-g++-3.4.4-1
-  libtool1.5-1.5.20-2
-  make-3.80-1
-  sed-4.1.4-1
+  libtool1.5-1.5.23a-1
+  make-3.81-1
+  sed-4.1.5-1
 
 Canonical homepage:
   http://www.nongnu.org/fxscintilla/
@@ -30,64 +32,81 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack fxscintilla-1.63-1-src.tar.bz2
+  unpack fxscintilla-1.71-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  ./fxscintilla-1.63-1.sh all
+  cygport ./fxscintilla-1.71-X.cygport all
 
 This will create:
-  /usr/src/fxscintilla-1.63-1-src.tar.bz2
-  /usr/src/fxscintilla-1.63-1.tar.bz2
-  /usr/src/libfxscintilla17-1.63-1.tar.bz2
-  /usr/src/libfxscintillanolexer5-1.63-1.tar.bz2
+  /usr/src/fxscintilla-1.71-X-src.tar.bz2
+  /usr/src/fxscintilla-1.71-X.tar.bz2
+  /usr/src/libfxscintilla-devel-1.71-X.tar.bz2
+  /usr/src/libfxscintilla18-1.71-X.tar.bz2
+  /usr/src/libfxscintillanolexer5-1.71-X.tar.bz2
 
 -------------------------------------------
 
-Files included in the binary package:
+Files included in the binary packages:
 
-  /usr/bin/cygfxscintilla-1.2-17.dll
-  /usr/bin/cygfxscintilla-1.4-17.dll
+(fxscintilla)
+  /usr/share/doc/Cygwin/fxscintilla-1.71.README
+  /usr/share/doc/fxscintilla-1.71/COPYING
+  /usr/share/doc/fxscintilla-1.71/ChangeLog
+  /usr/share/doc/fxscintilla-1.71/INSTALL
+  /usr/share/doc/fxscintilla-1.71/LICENSE.txt
+  /usr/share/doc/fxscintilla-1.71/README
+  /usr/share/doc/fxscintilla-1.71/html/Design.html
+  /usr/share/doc/fxscintilla-1.71/html/Icons.html
+  /usr/share/doc/fxscintilla-1.71/html/Lexer.txt
+  /usr/share/doc/fxscintilla-1.71/html/SciBreak.jpg
+  /usr/share/doc/fxscintilla-1.71/html/SciCoding.html
+  /usr/share/doc/fxscintilla-1.71/html/SciRest.jpg
+  /usr/share/doc/fxscintilla-1.71/html/SciTEIco.png
+  /usr/share/doc/fxscintilla-1.71/html/SciWord.jpg
+  /usr/share/doc/fxscintilla-1.71/html/ScintillaDoc.html
+  /usr/share/doc/fxscintilla-1.71/html/ScintillaDownload.html
+  /usr/share/doc/fxscintilla-1.71/html/ScintillaHistory.html
+  /usr/share/doc/fxscintilla-1.71/html/ScintillaRelated.html
+  /usr/share/doc/fxscintilla-1.71/html/ScintillaToDo.html
+  /usr/share/doc/fxscintilla-1.71/html/ScintillaUsage.html
+  /usr/share/doc/fxscintilla-1.71/html/Steps.html
+  /usr/share/doc/fxscintilla-1.71/html/index.html
+
+(libfxscintilla18)
+  /usr/bin/cygfxscintilla-1.2-18.dll
+  /usr/bin/cygfxscintilla-1.4-18.dll
+  /usr/bin/cygfxscintilla-1.6-18.dll
+
+(libfxscintillanolexer5)
   /usr/bin/cygfxscintillanolexer-1.2-5.dll
   /usr/bin/cygfxscintillanolexer-1.4-5.dll
+  /usr/bin/cygfxscintillanolexer-1.6-5.dll
+
+(libfxscintilla-devel)
   /usr/include/fxscintilla/FXScintilla.h
   /usr/include/fxscintilla/SciLexer.h
   /usr/include/fxscintilla/Scintilla.h
-  /usr/lib/libfxscintilla-1.2.a
   /usr/lib/libfxscintilla-1.2.dll.a
   /usr/lib/libfxscintilla-1.2.la
-  /usr/lib/libfxscintilla-1.4.a
   /usr/lib/libfxscintilla-1.4.dll.a
   /usr/lib/libfxscintilla-1.4.la
-  /usr/lib/libfxscintillanolexer-1.2.a
+  /usr/lib/libfxscintilla-1.6.dll.a
+  /usr/lib/libfxscintilla-1.6.la
   /usr/lib/libfxscintillanolexer-1.2.dll.a
   /usr/lib/libfxscintillanolexer-1.2.la
-  /usr/lib/libfxscintillanolexer-1.4.a
   /usr/lib/libfxscintillanolexer-1.4.dll.a
   /usr/lib/libfxscintillanolexer-1.4.la
-  /usr/share/doc/Cygwin/fxscintilla-1.63.README
-  /usr/share/doc/fxscintilla-1.63/ChangeLog
-  /usr/share/doc/fxscintilla-1.63/COPYING
-  /usr/share/doc/fxscintilla-1.63/INSTALL
-  /usr/share/doc/fxscintilla-1.63/README
-  /usr/share/doc/fxscintilla-1.63/html/Design.html
-  /usr/share/doc/fxscintilla-1.63/html/index.html
-  /usr/share/doc/fxscintilla-1.63/html/Lexer.txt
-  /usr/share/doc/fxscintilla-1.63/html/SciBreak.jpg
-  /usr/share/doc/fxscintilla-1.63/html/SciCoding.html
-  /usr/share/doc/fxscintilla-1.63/html/ScintillaDoc.html
-  /usr/share/doc/fxscintilla-1.63/html/ScintillaDownload.html
-  /usr/share/doc/fxscintilla-1.63/html/ScintillaHistory.html
-  /usr/share/doc/fxscintilla-1.63/html/ScintillaRelated.html
-  /usr/share/doc/fxscintilla-1.63/html/ScintillaToDo.html
-  /usr/share/doc/fxscintilla-1.63/html/ScintillaUsage.html
-  /usr/share/doc/fxscintilla-1.63/html/SciRest.jpg
-  /usr/share/doc/fxscintilla-1.63/html/SciWord.jpg
-  /usr/share/doc/fxscintilla-1.63/html/Steps.html
+  /usr/lib/libfxscintillanolexer-1.6.dll.a
+  /usr/lib/libfxscintillanolexer-1.6.la
 
 ------------------
 
 Port Notes:
+
+----- version 1.71-1 -----
+Version bump, built with cygport.
+Added support for fox-1.6.
 
 ----- version 1.63-1 -----
 Version bump.
