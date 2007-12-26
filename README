@@ -4,24 +4,22 @@ FXScintilla is an implementation of the Scintilla source code editing
 component for the FOX GUI Library.
 
 Runtime requirements:
-  cygwin-1.5.21-2
-  fox12-1.2.16-3
-  fox14-1.4.33-1
-  fox16-1.6.16-1
+  cygwin-1.5.24-2
+  fox16-1.6.30-1
 
 Build requirements:
 (besides corresponding -devel packages)
-  cygwin-1.5.21-2
-  autoconf2.5-2.60-1
-  automake1.9-1.9.6-1
+  cygwin-1.5.24-2
+  autoconf2.5-2.61-1
+  automake1.9-1.9.6-2
   binutils-20060817-1
-  cygport-0.2.6-1
-  gawk-3.1.5-2
-  gcc-core-3.4.4-1
-  gcc-g++-3.4.4-1
-  libtool1.5-1.5.23a-1
+  cygport-0.3.7-1
+  gawk-3.1.5-4
+  gcc-core-3.4.4-3
+  gcc-g++-3.4.4-3
+  libtool1.5-1.5.23a-2
   make-3.81-1
-  sed-4.1.5-1
+  sed-4.1.5-2
 
 Canonical homepage:
   http://www.nongnu.org/fxscintilla/
@@ -74,35 +72,26 @@ Files included in the binary packages:
   /usr/share/doc/fxscintilla-1.71/html/index.html
 
 (libfxscintilla18)
-  /usr/bin/cygfxscintilla-1.2-18.dll
-  /usr/bin/cygfxscintilla-1.4-18.dll
   /usr/bin/cygfxscintilla-1.6-18.dll
 
 (libfxscintillanolexer5)
-  /usr/bin/cygfxscintillanolexer-1.2-5.dll
-  /usr/bin/cygfxscintillanolexer-1.4-5.dll
   /usr/bin/cygfxscintillanolexer-1.6-5.dll
 
 (libfxscintilla-devel)
   /usr/include/fxscintilla/FXScintilla.h
   /usr/include/fxscintilla/SciLexer.h
   /usr/include/fxscintilla/Scintilla.h
-  /usr/lib/libfxscintilla-1.2.dll.a
-  /usr/lib/libfxscintilla-1.2.la
-  /usr/lib/libfxscintilla-1.4.dll.a
-  /usr/lib/libfxscintilla-1.4.la
   /usr/lib/libfxscintilla-1.6.dll.a
   /usr/lib/libfxscintilla-1.6.la
-  /usr/lib/libfxscintillanolexer-1.2.dll.a
-  /usr/lib/libfxscintillanolexer-1.2.la
-  /usr/lib/libfxscintillanolexer-1.4.dll.a
-  /usr/lib/libfxscintillanolexer-1.4.la
   /usr/lib/libfxscintillanolexer-1.6.dll.a
   /usr/lib/libfxscintillanolexer-1.6.la
 
 ------------------
 
 Port Notes:
+
+----- version 1.71-2 -----
+Dropped support for fox-1.2 and -1.4.
 
 ----- version 1.71-1 -----
 Version bump, built with cygport.

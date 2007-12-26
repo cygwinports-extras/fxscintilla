@@ -1,0 +1,45 @@
+DESCRITPION="Scintilla component for FOX Toolkit"
+HOMEPAGE="http://www.nongnu.org/fxscintilla/"
+SRC_URI="http://download.savannah.nongnu.org/releases/${PN}/${P}.tar.gz"
+
+PKG_NAMES="${PN} lib${PN}18 lib${PN}nolexer5 lib${PN}-devel"
+PKG_HINTS="setup lib nolexer devel"
+PKG_CONTENTS[0]='usr/share/'
+PKG_CONTENTS[1]="usr/bin/cyg${PN}-*.dll"
+PKG_CONTENTS[2]="usr/bin/cyg${PN}nolexer-*.dll"
+PKG_CONTENTS[3]='usr/include/ usr/lib/'
+
+fox_versions="1-6" # 1-4 1-6"
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+
+	for v in ${fox_versions}
+	do
+		mkdir -p ${B}/fox-${v}
+		cd ${B}/fox-${v}
+		CYGCONF_SOURCE=${S} cygconf --disable-static \
+			--enable-nolexer --with-fox-${v} \
+			--with-foxinclude=/usr/include --with-foxlib=/usr/lib
+		cygmake
+	done
+}
+
+src_test() {
+	for v in ${fox_versions}
+	do
+		cd ${B}/fox-${v}
+		cygmake -j1 check
+	done
+}
+
+HTMLDOCS=scintilla/doc/*
+
+src_install() {
+	for v in ${fox_versions}
+	do
+		cd ${B}/fox-${v}
+		cyginstall
+	done
+}

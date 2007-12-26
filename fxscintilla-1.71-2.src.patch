@@ -1,0 +1,209 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/Makefile.am src/fxscintilla-1.71/Makefile.am
+--- origsrc/fxscintilla-1.71/Makefile.am	2006-09-25 16:08:45.000000000 -0500
++++ src/fxscintilla-1.71/Makefile.am	2006-11-05 20:19:57.977375000 -0600
+@@ -1 +1,4 @@
+ SUBDIRS = scintilla include src tests .
++
++ACLOCAL_AMFLAGS = -I config
++
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/config/acinclude.m4 src/fxscintilla-1.71/config/acinclude.m4
+--- origsrc/fxscintilla-1.71/config/acinclude.m4	2006-09-25 16:25:28.000000000 -0500
++++ src/fxscintilla-1.71/config/acinclude.m4	2006-11-05 20:16:51.483000000 -0600
+@@ -20,7 +20,7 @@
+ LIBS=-lFOX$1
+ AC_LANG_CPLUSPLUS
+ 
+-if test x"$HAVE_CYGWIN" = xyes -o x"$HAVE_MINGW32" = xyes; then
++if test x"$HAVE_MINGW32" = xyes; then
+   LDFLAGS="$LDFLAGS -mwindows"
+ 	if test x"$HAVE_CYGWIN" = xyes; then
+ 		CPPFLAGS="$CPPFLAGS -DWIN32"
+@@ -73,7 +73,6 @@
+ #
+ AC_REQUIRE([AC_CANONICAL_HOST])[]dnl
+ case $host_os in
+-  *cygwin* ) HAVE_CYGWIN=yes;;
+   *mingw32* ) HAVE_MINGW32=yes;;
+          * ) ;;
+ esac
+@@ -95,6 +94,7 @@
+ 	CHECK_LIBFOX__(-1.6)
+ 	if test x"$have_FOX" = xyes; then
+ 		AC_DEFINE(HAVE_FOX_1_6,1,[Define FOX version 1.6.])
++		FOX_VERSION=1.6
+ 	fi
+     have_FOX_1_6=$have_FOX
+ fi
+@@ -104,6 +104,7 @@
+ 	CHECK_LIBFOX__(-1.4)
+ 	if test x"$have_FOX" = xyes; then
+ 		AC_DEFINE(HAVE_FOX_1_4,1,[Define FOX version 1.4.])
++		FOX_VERSION=1.4
+ 	fi
+     have_FOX_1_4=$have_FOX
+ fi
+@@ -113,10 +114,12 @@
+ 	CHECK_LIBFOX__(-1.2)
+ 	if test x"$have_FOX" = xyes; then
+ 		AC_DEFINE(HAVE_FOX_1_2,1,[Define FOX version 1.2.])
++		FOX_VERSION=1.2
+ 	fi
+     have_FOX_1_2=$have_FOX
+ fi
+ AM_CONDITIONAL(HAVE_FOX_1_2, test x"$have_FOX_1_6" != xyes -a x"$have_FOX_1_4" != xyes -a x"$have_FOX" = xyes)
++AC_SUBST(FOX_VERSION)
+ 
+ #
+ # Abort if no FOX lib or multiple --with-fox-1.x
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/configure.in src/fxscintilla-1.71/configure.in
+--- origsrc/fxscintilla-1.71/configure.in	2006-09-26 16:13:08.000000000 -0500
++++ src/fxscintilla-1.71/configure.in	2006-11-05 20:31:35.644000000 -0600
+@@ -4,18 +4,13 @@
+ dnl Check Cygwin and MinGW32
+ AC_CANONICAL_HOST
+ case $host_os in
+-	*cygwin* )  HAVE_CYGWIN=yes;;
+ 	*mingw32* ) HAVE_MINGW32=yes;;
+ 	* ) ;;
+ esac
+ 
+-AM_CONDITIONAL(HAVE_CYGWIN, test x"$HAVE_CYGWIN" = xyes)
+ AM_CONDITIONAL(HAVE_MINGW32, test x"$HAVE_MINGW32" = xyes)
+ 
+ dnl Using libtool
+-if test x"$HAVE_CYGWIN" = xyes -o x"$HAVE_MINGW32" = xyes; then
+-  AC_DISABLE_SHARED
+-fi
+ AM_PROG_LIBTOOL
+ 
+ dnl Must have a C++ compiler
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/scintilla/src/Makefile.am src/fxscintilla-1.71/scintilla/src/Makefile.am
+--- origsrc/fxscintilla-1.71/scintilla/src/Makefile.am	2006-09-25 15:15:17.000000000 -0500
++++ src/fxscintilla-1.71/scintilla/src/Makefile.am	2006-11-05 20:18:31.592375000 -0600
+@@ -1,12 +1,6 @@
+ INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/scintilla/include
+ AM_CXXFLAGS = -W -Wall -DFOX
+ 
+-## Cygwin
+-if HAVE_CYGWIN
+-AM_CXXFLAGS += -DWIN32
+-AM_LDFLAGS = -mwindows
+-endif # Cygwin
+-
+ ## MinGW32
+ if HAVE_MINGW32
+ AM_LDFLAGS = -mwindows
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/src/Makefile.am src/fxscintilla-1.71/src/Makefile.am
+--- origsrc/fxscintilla-1.71/src/Makefile.am	2006-09-25 16:00:18.000000000 -0500
++++ src/fxscintilla-1.71/src/Makefile.am	2006-11-05 20:24:23.493000000 -0600
+@@ -6,43 +6,40 @@
+ 
+ AM_CXXFLAGS = -W -Wall -DFOX
+ 
+-## Cygwin
+-if HAVE_CYGWIN
+-AM_CXXFLAGS += -DWIN32
+-AM_LDFLAGS = -mwindows
+-endif # Cygwin
+-
+ ## MinGW32
+ if HAVE_MINGW32
+ AM_LDFLAGS = -mwindows
+ endif # MinGW32
+ 
+-lib_LTLIBRARIES = libfxscintilla.la
++lib_LTLIBRARIES = libfxscintilla-@FOX_VERSION@.la
+ 
+-libfxscintilla_la_SOURCES = \
++libfxscintilla_@FOX_VERSION@_la_SOURCES = \
+ 	PlatFOX.cxx \
+ 	ScintillaFOX.cxx
+ 
+-libfxscintilla_la_LIBADD = \
+-	$(top_builddir)/scintilla/src/libscintilla.la
++libfxscintilla_@FOX_VERSION@_la_LIBADD = \
++	$(top_builddir)/scintilla/src/libscintilla.la -L$(FOX_LIB_DIR) -lFOX-@FOX_VERSION@
+ 
+-libfxscintilla_la_LDFLAGS = \
++libfxscintilla_@FOX_VERSION@_la_LDFLAGS = \
++	-no-undefined \
+ 	-version-info $(LT_FXSCINTILLA_CURRENT):$(LT_FXSCINTILLA_REVISION):$(LT_FXSCINTILLA_AGE)
+ 
+-libfxscintilla_la_CXXFLAGS = $(AM_CXXFLAGS) -DSCI_LEXER
++libfxscintilla_@FOX_VERSION@_la_CXXFLAGS = $(AM_CXXFLAGS) -DSCI_LEXER
+ 
+ ## NoLexer enabled
+ if NOLEXER
+ 
+-lib_LTLIBRARIES += libfxscintillanolexer.la
++lib_LTLIBRARIES += libfxscintillanolexer-@FOX_VERSION@.la
+ 
+-libfxscintillanolexer_la_SOURCES = \
++libfxscintillanolexer_@FOX_VERSION@_la_SOURCES = \
+ 	PlatFOX.cxx \
+ 	ScintillaFOX.cxx
+ 
+-libfxscintillanolexer_la_LIBADD = $(top_builddir)/scintilla/src/libscintillanolexer.la
++libfxscintillanolexer_@FOX_VERSION@_la_LIBADD = \
++	$(top_builddir)/scintilla/src/libscintillanolexer.la -L$(FOX_LIB_DIR) -lFOX-@FOX_VERSION@
+ 
+-libfxscintillanolexer_la_LDFLAGS = \
++libfxscintillanolexer_@FOX_VERSION@_la_LDFLAGS = \
++	-no-undefined \
+ 	-version-info $(LT_FXSCINTILLANOLEXER_CURRENT):$(LT_FXSCINTILLANOLEXER_REVISION):$(LT_FXSCINTILLANOLEXER_AGE)
+ 
+ endif # NOLEXER
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/src/PlatFOX.cxx src/fxscintilla-1.71/src/PlatFOX.cxx
+--- origsrc/fxscintilla-1.71/src/PlatFOX.cxx	2006-10-13 16:03:34.000000000 -0500
++++ src/fxscintilla-1.71/src/PlatFOX.cxx	2006-11-05 20:19:57.993000000 -0600
+@@ -32,7 +32,6 @@
+ 
+ #if !defined(WIN32) || defined(__CYGWIN__)
+ # if defined(__CYGWIN__)
+-#  include <windows.h>
+ #  ifdef PIC
+ #   define FOXDLL
+ #  endif
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/src/ScintillaFOX.cxx src/fxscintilla-1.71/src/ScintillaFOX.cxx
+--- origsrc/fxscintilla-1.71/src/ScintillaFOX.cxx	2006-09-25 16:00:18.000000000 -0500
++++ src/fxscintilla-1.71/src/ScintillaFOX.cxx	2006-11-05 20:19:57.993000000 -0600
+@@ -34,7 +34,6 @@
+ 
+ #if !defined(WIN32) || defined(__CYGWIN__)
+ # if defined(__CYGWIN__)
+-#  include <windows.h>
+ #  ifdef PIC
+ #   define FOXDLL
+ #  endif
+@@ -89,7 +88,7 @@
+ #include "SString.h"
+ #include "ScintillaBase.h"
+ 
+-#ifdef WIN32
++#if defined(WIN32) || defined(__CYGWIN__)
+ #ifdef FOXDLL
+ #undef FXAPI
+ #define FXAPI __declspec(dllexport)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x Makefile.in.in -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x omf.make -x xmldocs.make origsrc/fxscintilla-1.71/tests/Makefile.am src/fxscintilla-1.71/tests/Makefile.am
+--- origsrc/fxscintilla-1.71/tests/Makefile.am	2006-09-25 16:00:18.000000000 -0500
++++ src/fxscintilla-1.71/tests/Makefile.am	2006-11-05 20:18:13.061125000 -0600
+@@ -1,5 +1,5 @@
+ INCLUDES = -I$(top_srcdir)/include -I$(FOX_INCLUDE_DIR)
+-LDADD = -L$(FOX_LIB_DIR) $(top_builddir)/src/libfxscintilla.la
++LDADD = -L$(FOX_LIB_DIR) $(top_builddir)/src/libfxscintilla-@FOX_VERSION@.la
+ 
+ if HAVE_FOX_1_2
+ LDADD += -lFOX-1.2
+@@ -15,12 +15,6 @@
+ 
+ AM_CXXFLAGS = $(PTHREAD_CFLAGS) -W -Wall -DFOX -DSCI_LEXER
+ 
+-## Cygwin
+-if HAVE_CYGWIN
+-AM_CXXFLAGS += -DWIN32
+-AM_LDFLAGS = -mwindows
+-endif # Cygwin
+-
+ ## MinGW32
+ if HAVE_MINGW32
+ AM_LDFLAGS = -mwindows
