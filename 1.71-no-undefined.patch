@@ -1,0 +1,37 @@
+--- origsrc/fxscintilla-1.71/src/Makefile.am	2009-07-12 23:42:54.531959900 -0500
++++ src/fxscintilla-1.71/src/Makefile.am	2009-07-13 01:03:19.138183000 -0500
+@@ -6,6 +6,18 @@ INCLUDES = \
+ 
+ AM_CXXFLAGS = -W -Wall -DFOX
+ 
++if HAVE_FOX_1_2
++LIBS += -L$(FOX_LIB_DIR) -lFOX-1.2
++endif
++
++if HAVE_FOX_1_4
++LIBS += -L$(FOX_LIB_DIR) -lFOX-1.4
++endif
++
++if HAVE_FOX_1_6
++LIBS += -L$(FOX_LIB_DIR) -lFOX-1.6
++endif
++
+ ## MinGW32
+ if HAVE_MINGW32
+ AM_LDFLAGS = -mwindows
+@@ -21,6 +33,7 @@ libfxscintilla_la_LIBADD = \
+ 	$(top_builddir)/scintilla/src/libscintilla.la
+ 
+ libfxscintilla_la_LDFLAGS = \
++	-no-undefined \
+ 	-version-info $(LT_FXSCINTILLA_CURRENT):$(LT_FXSCINTILLA_REVISION):$(LT_FXSCINTILLA_AGE)
+ 
+ libfxscintilla_la_CXXFLAGS = $(AM_CXXFLAGS) -DSCI_LEXER
+@@ -37,6 +50,7 @@ libfxscintillanolexer_la_SOURCES = \
+ libfxscintillanolexer_la_LIBADD = $(top_builddir)/scintilla/src/libscintillanolexer.la
+ 
+ libfxscintillanolexer_la_LDFLAGS = \
++	-no-undefined \
+ 	-version-info $(LT_FXSCINTILLANOLEXER_CURRENT):$(LT_FXSCINTILLANOLEXER_REVISION):$(LT_FXSCINTILLANOLEXER_AGE)
+ 
+ endif # NOLEXER

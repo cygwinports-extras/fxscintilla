@@ -1,10 +1,3 @@
---- origsrc/fxscintilla-1.71/Makefile.am	2006-09-25 16:08:45.000000000 -0500
-+++ src/fxscintilla-1.71/Makefile.am	2006-11-05 20:19:57.977375000 -0600
-@@ -1 +1,4 @@
- SUBDIRS = scintilla include src tests .
-+
-+ACLOCAL_AMFLAGS = -I config
-+
 --- origsrc/fxscintilla-1.71/config/acinclude.m4	2006-09-25 16:25:28.000000000 -0500
 +++ src/fxscintilla-1.71/config/acinclude.m4	2006-11-05 20:16:51.483000000 -0600
 @@ -20,7 +20,7 @@
@@ -24,35 +17,6 @@
    *mingw32* ) HAVE_MINGW32=yes;;
           * ) ;;
  esac
-@@ -95,6 +94,7 @@
- 	CHECK_LIBFOX__(-1.6)
- 	if test x"$have_FOX" = xyes; then
- 		AC_DEFINE(HAVE_FOX_1_6,1,[Define FOX version 1.6.])
-+		FOX_VERSION=1.6
- 	fi
-     have_FOX_1_6=$have_FOX
- fi
-@@ -104,6 +104,7 @@
- 	CHECK_LIBFOX__(-1.4)
- 	if test x"$have_FOX" = xyes; then
- 		AC_DEFINE(HAVE_FOX_1_4,1,[Define FOX version 1.4.])
-+		FOX_VERSION=1.4
- 	fi
-     have_FOX_1_4=$have_FOX
- fi
-@@ -113,10 +114,12 @@
- 	CHECK_LIBFOX__(-1.2)
- 	if test x"$have_FOX" = xyes; then
- 		AC_DEFINE(HAVE_FOX_1_2,1,[Define FOX version 1.2.])
-+		FOX_VERSION=1.2
- 	fi
-     have_FOX_1_2=$have_FOX
- fi
- AM_CONDITIONAL(HAVE_FOX_1_2, test x"$have_FOX_1_6" != xyes -a x"$have_FOX_1_4" != xyes -a x"$have_FOX" = xyes)
-+AC_SUBST(FOX_VERSION)
- 
- #
- # Abort if no FOX lib or multiple --with-fox-1.x
 --- origsrc/fxscintilla-1.71/configure.in	2006-09-26 16:13:08.000000000 -0500
 +++ src/fxscintilla-1.71/configure.in	2006-11-05 20:31:35.644000000 -0600
 @@ -4,18 +4,13 @@
@@ -91,7 +55,7 @@
  AM_LDFLAGS = -mwindows
 --- origsrc/fxscintilla-1.71/src/Makefile.am	2006-09-25 16:00:18.000000000 -0500
 +++ src/fxscintilla-1.71/src/Makefile.am	2006-11-05 20:24:23.493000000 -0600
-@@ -6,43 +6,40 @@
+@@ -6,12 +6,6 @@
  
  AM_CXXFLAGS = -W -Wall -DFOX
  
@@ -104,50 +68,6 @@
  ## MinGW32
  if HAVE_MINGW32
  AM_LDFLAGS = -mwindows
- endif # MinGW32
- 
--lib_LTLIBRARIES = libfxscintilla.la
-+lib_LTLIBRARIES = libfxscintilla-@FOX_VERSION@.la
- 
--libfxscintilla_la_SOURCES = \
-+libfxscintilla_@FOX_VERSION@_la_SOURCES = \
- 	PlatFOX.cxx \
- 	ScintillaFOX.cxx
- 
--libfxscintilla_la_LIBADD = \
--	$(top_builddir)/scintilla/src/libscintilla.la
-+libfxscintilla_@FOX_VERSION@_la_LIBADD = \
-+	$(top_builddir)/scintilla/src/libscintilla.la -L$(FOX_LIB_DIR) -lFOX-@FOX_VERSION@
- 
--libfxscintilla_la_LDFLAGS = \
-+libfxscintilla_@FOX_VERSION@_la_LDFLAGS = \
-+	-no-undefined \
- 	-version-info $(LT_FXSCINTILLA_CURRENT):$(LT_FXSCINTILLA_REVISION):$(LT_FXSCINTILLA_AGE)
- 
--libfxscintilla_la_CXXFLAGS = $(AM_CXXFLAGS) -DSCI_LEXER
-+libfxscintilla_@FOX_VERSION@_la_CXXFLAGS = $(AM_CXXFLAGS) -DSCI_LEXER
- 
- ## NoLexer enabled
- if NOLEXER
- 
--lib_LTLIBRARIES += libfxscintillanolexer.la
-+lib_LTLIBRARIES += libfxscintillanolexer-@FOX_VERSION@.la
- 
--libfxscintillanolexer_la_SOURCES = \
-+libfxscintillanolexer_@FOX_VERSION@_la_SOURCES = \
- 	PlatFOX.cxx \
- 	ScintillaFOX.cxx
- 
--libfxscintillanolexer_la_LIBADD = $(top_builddir)/scintilla/src/libscintillanolexer.la
-+libfxscintillanolexer_@FOX_VERSION@_la_LIBADD = \
-+	$(top_builddir)/scintilla/src/libscintillanolexer.la -L$(FOX_LIB_DIR) -lFOX-@FOX_VERSION@
- 
--libfxscintillanolexer_la_LDFLAGS = \
-+libfxscintillanolexer_@FOX_VERSION@_la_LDFLAGS = \
-+	-no-undefined \
- 	-version-info $(LT_FXSCINTILLANOLEXER_CURRENT):$(LT_FXSCINTILLANOLEXER_REVISION):$(LT_FXSCINTILLANOLEXER_AGE)
- 
- endif # NOLEXER
 --- origsrc/fxscintilla-1.71/src/PlatFOX.cxx	2006-10-13 16:03:34.000000000 -0500
 +++ src/fxscintilla-1.71/src/PlatFOX.cxx	2006-11-05 20:19:57.993000000 -0600
 @@ -32,7 +32,6 @@
@@ -179,13 +99,6 @@
  #define FXAPI __declspec(dllexport)
 --- origsrc/fxscintilla-1.71/tests/Makefile.am	2006-09-25 16:00:18.000000000 -0500
 +++ src/fxscintilla-1.71/tests/Makefile.am	2006-11-05 20:18:13.061125000 -0600
-@@ -1,5 +1,5 @@
- INCLUDES = -I$(top_srcdir)/include -I$(FOX_INCLUDE_DIR)
--LDADD = -L$(FOX_LIB_DIR) $(top_builddir)/src/libfxscintilla.la
-+LDADD = -L$(FOX_LIB_DIR) $(top_builddir)/src/libfxscintilla-@FOX_VERSION@.la
- 
- if HAVE_FOX_1_2
- LDADD += -lFOX-1.2
 @@ -15,12 +15,6 @@
  
  AM_CXXFLAGS = $(PTHREAD_CFLAGS) -W -Wall -DFOX -DSCI_LEXER

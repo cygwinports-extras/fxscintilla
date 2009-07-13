@@ -1,4 +1,6 @@
 category: X11
-sdesc: "Scintilla component for FOX Toolkit (documenation)"
+requires: libFOX1.6_0 libgcc1 libstdc++6
+external-source: fxscintilla
+sdesc: "Scintilla component for FOX Toolkit (runtime)"
 ldesc: "FXScintilla is an implementation of the Scintilla source code 
 editing component for the FOX GUI Library"
