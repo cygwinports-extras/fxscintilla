@@ -1,0 +1,10 @@
+DESCRITPION="Scintilla component for FOX Toolkit"
+HOMEPAGE="http://www.nongnu.org/fxscintilla/"
+SRC_URI="mirror://savannah/${PN}/${P}.tar.gz"
+PATCH_URI="2.28.0-cygwin.patch"
+
+PKG_NAMES="lib${PN}20 lib${PN}-devel"
+libfxscintilla20_CONTENTS="usr/bin/cyg${PN}-20.dll usr/share/doc/"
+libfxscintilla_devel_CONTENTS="usr/include/ usr/lib/"
+
+CYGCONF_ARGS="--enable-shared"

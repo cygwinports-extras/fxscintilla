@@ -1,0 +1,54 @@
+--- origsrc/fxscintilla-2.28.0/configure.in	2011-11-14 17:33:06.485090300 -0600
++++ src/fxscintilla-2.28.0/configure.in	2011-11-14 01:17:09.778244800 -0600
+@@ -6,7 +6,6 @@ AC_CONFIG_MACRO_DIR([m4])
+ dnl Check Cygwin and MinGW32
+ AC_CANONICAL_HOST
+ case $host_os in
+-  *cygwin* )  HAVE_CYGWIN=yes;;
+   *mingw32* ) HAVE_MINGW32=yes;;
+   * ) ;;
+ esac
+--- origsrc/fxscintilla-2.28.0/fox/Makefile.am	2011-11-14 17:33:06.485090300 -0600
++++ src/fxscintilla-2.28.0/fox/Makefile.am	2011-11-14 01:17:09.823247300 -0600
+@@ -24,9 +24,9 @@ libfxscintilla_la_SOURCES = \
+   ScintillaFOX.cxx
+ 
+ libfxscintilla_la_LIBADD = \
+-  $(top_builddir)/src/libscintilla.la
++  $(top_builddir)/src/libscintilla.la $(FOX_LIBS)
+ 
+-libfxscintilla_la_LDFLAGS = -version-info \
++libfxscintilla_la_LDFLAGS = -no-undefined -version-info \
+   $(LT_FXSCINTILLA_CURRENT):$(LT_FXSCINTILLA_REVISION):$(LT_FXSCINTILLA_AGE)
+ 
+ libfxscintilla_la_CXXFLAGS = $(AM_CXXFLAGS) -DSCI_LEXER
+--- origsrc/fxscintilla-2.28.0/fox/PlatFOX.cxx	2011-11-14 17:33:06.485090300 -0600
++++ src/fxscintilla-2.28.0/fox/PlatFOX.cxx	2011-11-14 17:31:20.997706400 -0600
+@@ -31,12 +31,6 @@
+ #include <stdlib.h>
+ 
+ #if !defined(WIN32) || defined(__CYGWIN__)
+-# if defined(__CYGWIN__)
+-#  include <windows.h>
+-#  ifdef PIC
+-#   define FOXDLL
+-#  endif
+-# endif
+ # include <sys/time.h>
+ #  include <fx.h>
+ #  include <fxkeys.h>
+--- origsrc/fxscintilla-2.28.0/fox/ScintillaFOX.cxx	2011-11-14 17:33:06.485090300 -0600
++++ src/fxscintilla-2.28.0/fox/ScintillaFOX.cxx	2011-11-14 17:31:30.435722900 -0600
+@@ -36,12 +36,6 @@
+ #include <map>
+ 
+ #if !defined(WIN32) || defined(__CYGWIN__)
+-# if defined(__CYGWIN__)
+-#  include <windows.h>
+-#  ifdef PIC
+-#   define FOXDLL
+-#  endif
+-# endif
+ # include <fx.h>
+ # include <fxkeys.h>
+ #else
